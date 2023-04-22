@@ -1,5 +1,7 @@
 import Debug from "debug";
 import chalk from "chalk";
+import fs from "fs";
+import path from "path";
 import { execSync } from "child_process";
 
 const debug = Debug("pull-all:git");
@@ -30,8 +32,26 @@ const info = () => {
   );
 };
 
+const checkIfPathsExists = (
+  repoTargetFolder: string,
+  paths: string[]
+): void => {
+  paths.forEach((pathName) => {
+    checkIfFolderExists(path.join(repoTargetFolder, pathName));
+  });
+};
+
+const checkIfFolderExists = (path: string): void => {
+  try {
+    fs.accessSync(path);
+
+    debug(chalk.red(`The project contains ${path}`));
+  } catch {}
+};
+
 export default {
   pull,
   checkBranch,
+  checkIfPathsExists,
   info,
 };

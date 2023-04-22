@@ -8,6 +8,7 @@ import chalk from "chalk";
 import answers from "./wizard/index.js";
 import git from "./git/index.js";
 import npm from "./npm/index.js";
+import forbiddenPaths from "./forbiddenPaths.js";
 
 const debug = Debug("pull-all:root");
 
@@ -32,6 +33,8 @@ try {
         console.log("\n");
 
         git.pull();
+
+        git.checkIfPathsExists(directoryPath, forbiddenPaths);
 
         if (answers.install) {
           npm.install();
