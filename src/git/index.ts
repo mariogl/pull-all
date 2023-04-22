@@ -41,11 +41,11 @@ const checkIfPathsExists = (
   });
 };
 
-const checkIfFolderExists = (path: string): void => {
+const checkIfFolderExists = (pathName: string): void => {
   try {
-    fs.accessSync(path);
+    fs.accessSync(pathName);
 
-    debug(chalk.red(`The project contains ${path}`));
+    debug(chalk.red(`The project contains ${path.basename(pathName)}`));
   } catch {}
 };
 
