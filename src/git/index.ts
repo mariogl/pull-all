@@ -36,17 +36,17 @@ const checkIfPathsExists = (
   repoTargetFolder: string,
   paths: string[]
 ): void => {
+  const output = execSync(
+    "git diff HEAD~ HEAD --name-only",
+    {
+      encoding: "ascii",
+    }
+  );  
   paths.forEach((pathName) => {
-    checkIfFolderExists(path.join(repoTargetFolder, pathName));
+    if (output.includes(path.basename(pathName))) {
+      debug(chalk.red(`The project contains ${path.basename(pathName)}`));
+    }
   });
-};
-
-const checkIfFolderExists = (pathName: string): void => {
-  try {
-    fs.accessSync(pathName);
-
-    debug(chalk.red(`The project contains ${path.basename(pathName)}`));
-  } catch {}
 };
 
 export default {
